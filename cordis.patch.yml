@@ -1,0 +1,4 @@
+# dsh-router-flash bundle 补丁层：安装后自动挂入 web profile 组合。
+- insert:
+    - id: router-flash
+      name: dsh-router-flash
