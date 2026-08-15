@@ -118,7 +118,17 @@ dsh-router-flash/
 - preset 同步为幂等内容比对：无变化不写入；升级时包内变更文件覆盖目标；不删除目标目录中包内没有的文件
 - 卸载 bundle 不会自动删除已安装的 preset 文件，避免误删用户修改
 
-## 致谢
+## 致谢与来源
 
-- 原仓库 [SheberDavid/v4-flash-godmode-opencode-go](https://github.com/SheberDavid/v4-flash-godmode-opencode-go)：preset 本体与适配逻辑来源
-- 基于 [dsh-routing-suite](https://github.com/yjh051108/dsh-routing-suite) / [dsh-router-standard](https://github.com/yjh051108/dsh-router-standard) 的研究与代码（MIT）
+本仓库是衍生作品，内容来源如下：
+
+| 项目 | 作者 | 许可 | 用途 |
+|---|---|---|---|
+| [SheberDavid/v4-flash-godmode-opencode-go](https://github.com/SheberDavid/v4-flash-godmode-opencode-go) | SheberDavid | 无独立 LICENSE（其 README 声明基于 MIT 项目） | `preset/` 本体与 dsh rc.6 适配逻辑的直接来源 |
+| [dsh-router-standard](https://github.com/yjh051108/dsh-router-standard) | yjh051108 | MIT（© 2026 yjh051108） | Flash w7 persona、深度思考锚与路由研究的源头 |
+| [dsh-routing-suite](https://github.com/yjh051108/dsh-routing-suite) | yjh051108 | MIT | 路由研究 |
+| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) | DeepSeek | MIT | 宿主框架 |
+
+本仓库新增的 bundle 包装层（`package.json` / `cordis.patch.yml` / `lib/`）为本仓库独立新增代码。
+
+完整许可与衍生链说明见 [LICENSE](./LICENSE) 与 [NOTICE](./NOTICE)。DeepSeek 是 DeepSeek 公司商标；本项目为社区产物，与 DeepSeek 无关联。
