@@ -12,7 +12,7 @@
  */
 
 import {
-  applyPersona, coreFor, personaFor, sessionMode, isFlashModel,
+  applyPersona, coreFor, personaFor, sessionEvents, sessionMode, isFlashModel,
 } from './router-core.mjs'
 
 /** Cordis plugin name used by loader diagnostics. */
@@ -39,7 +39,7 @@ export function apply(ctx, config) {
     // persona 全程不变；只有工具面在首次 tool call 后放开全目录。
     const sections = applyPersona(assembled.sections, persona)
 
-    if (session.events.some((event) => event.type === 'tool/call')) {
+    if (sessionEvents(session).some((event) => event.type === 'tool/call')) {
       return { ...assembled, sections, contexts: [] } // promoted: full catalog
     }
 

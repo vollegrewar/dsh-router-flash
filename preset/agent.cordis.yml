@@ -37,6 +37,9 @@
 - id: persona
   name: '@deepseek-ai/dsh-persona'
   config:
+    # dsh 0.1.5 起 schema 改为 prefix/suffix；旧版（<=0.1.2）只认 text。
+    # 双写同一段文本：schemastery 忽略未声明的键，两代宿主都能挂载。
+    prefix: You are a helpful software engineer assistant.
     text: You are a helpful software engineer assistant.
 
 - id: agent-instructions
