@@ -13,7 +13,7 @@
 ## 安装
 
 ```bash
-dsh plugin --profile web add -w github:xiaoxianyu-office/dsh-router-flash#v0.1.0
+dsh plugin --profile web add -w github:xiaoxianyu-office/dsh-router-flash#v0.1.1
 ```
 
 安装后**重启 DSH**：`router-flash` preset 会被自动安装到 `~/.dsh/.agent-presets/router-flash`。
@@ -36,7 +36,7 @@ agent-presets:
 重复 `add` 并指定最新 tag，**不要使用 update 选择 Git 引用**：
 
 ```bash
-dsh plugin --profile web add -w github:xiaoxianyu-office/dsh-router-flash#v0.1.0
+dsh plugin --profile web add -w github:xiaoxianyu-office/dsh-router-flash#v0.1.1
 ```
 
 重启 DSH 后，包内变更的 preset 文件会自动覆盖到 `~/.dsh/.agent-presets/router-flash`。
@@ -100,6 +100,18 @@ dsh plugin --profile web remove dsh-router-flash
 验证环境：dsh `0.1.5-rc.2` + `opencode-go/deepseek-v4-flash`。切换预设后可正常对话，并实测工具调用（`echo hi-from-router` 由 PowerShell 执行、退出码 0）。
 
 兼容性：persona 双写 `prefix` + `text`（schemastery 忽略未声明键），事件读取用特性探测（`snapshotEvents()` 优先、回退 `session.events`），因此同一份 preset 在 `0.1.2-rc.1` ~ `0.1.5-rc.2` 两代宿主上均可挂载运行。
+
+### v0.1.1 适配（2026-09-16）
+
+与 dsh `0.1.5-rc.2` 的标准模式逐行对齐后，修掉三处：
+
+1. **恢复运行时上下文**：`router-bootstrap.mjs` 原先两个返回分支都返回 `contexts: []`，把 `sandbox:policy`（当前文件策略）、`approval:policy`（审批策略）、`subagent:delegation`（子代理权限说明）三段一起从系统提示词里抹掉。这三段按会话稳定、不随轮次变化，保留不破坏 KV cache 前缀，所以现在不再清空。
+2. **persona 补回工作目录**：标准 persona 的 `Your working directory is {{cwd}}.` 会被 `applyPersona()` 连同 persona 一起过滤掉，模型因此不知道自己的工作目录，而 `WEAK_FLASH` 又明确禁止跑 `echo/pwd/date` 这类环境检查。现从 `session.header.cwd` 追加一句（不用 `{{cwd}}`，因为 dsh 对未注册变量名是抛错而不是留空）。
+3. **补回 4 行漂移的工具行**：`command-goal`（`/goal` 命令）、`present`（交付物声明工具）、`tool-web` 的 `fetch: true`（原先为 `false`，没有网页抓取）、`tool-subagent` 的 `modelSelectionSettings: true`（子代理可选模型）。对照对象是 `dsh-agent-presets/presets/standard/agent.cordis.yml`。
+
+persona 路由逻辑未改动：`isFlashModel` 命中即 weak、`WEAK_FLASH` / `WEAK_PRO` 文本、关键词分类、首轮工具面（weak 模式为 read/write/edit + shell，首次 `tool/call` 后放开全目录）全部保持原样。
+
+> 提示：本 preset 的组合文件是标准模式在某个 dsh 版本的整份副本，dsh 升级后可能再次出现行差。对照方法与差异清单见仓库 issue / PR 记录。
 
 ## 适用范围
 
