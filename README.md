@@ -13,10 +13,12 @@
 ## 安装
 
 ```bash
-dsh plugin --profile web add -w github:xiaoxianyu-office/dsh-router-flash#v0.1.1
+dsh plugin --profile web add -w github:vollegrewar/dsh-router-flash#v0.1.1
 ```
 
 安装后**重启 DSH**：`router-flash` preset 会被自动安装到 `~/.dsh/.agent-presets/router-flash`。
+
+> 地址说明：`v0.1.1` 目前只发布在本仓库（`vollegrewar/dsh-router-flash`）。上游 `xiaoxianyu-office/dsh-router-flash` 合并本版本并打 tag 之后，可把上面两处地址换回上游。
 
 然后编辑 `~/.dsh/settings.yaml`，把默认 agent preset 指向它（模型也需指向 Flash）：
 
@@ -36,7 +38,7 @@ agent-presets:
 重复 `add` 并指定最新 tag，**不要使用 update 选择 Git 引用**：
 
 ```bash
-dsh plugin --profile web add -w github:xiaoxianyu-office/dsh-router-flash#v0.1.1
+dsh plugin --profile web add -w github:vollegrewar/dsh-router-flash#v0.1.1
 ```
 
 重启 DSH 后，包内变更的 preset 文件会自动覆盖到 `~/.dsh/.agent-presets/router-flash`。
